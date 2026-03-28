@@ -1,0 +1,88 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <world name="circuit_world">
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose>0 0 12 0 1.5708 0</pose>
+      </camera>
+    </gui>
+
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <!-- Outer frame: 7m x 9m, good scale for TurtleBot3 -->
+    <model name="frame_left">
+      <static>true</static>
+      <pose>-3.55 0 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>0.1 9.1 1.0</size></box></geometry></collision>
+        <visual name="vis"><geometry><box><size>0.1 9.1 1.0</size></box></geometry><material><ambient>0.80 0.20 0.20 1</ambient></material></visual>
+      </link>
+    </model>
+    <model name="frame_right">
+      <static>true</static>
+      <pose>3.55 0 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>0.1 9.1 1.0</size></box></geometry></collision>
+        <visual name="vis"><geometry><box><size>0.1 9.1 1.0</size></box></geometry><material><ambient>0.80 0.20 0.20 1</ambient></material></visual>
+      </link>
+    </model>
+    <model name="frame_top">
+      <static>true</static>
+      <pose>0 4.55 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>7.1 0.1 1.0</size></box></geometry></collision>
+        <visual name="vis"><geometry><box><size>7.1 0.1 1.0</size></box></geometry><material><ambient>0.80 0.20 0.20 1</ambient></material></visual>
+      </link>
+    </model>
+    <model name="frame_bottom">
+      <static>true</static>
+      <pose>0 -4.55 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>7.1 0.1 1.0</size></box></geometry></collision>
+        <visual name="vis"><geometry><box><size>7.1 0.1 1.0</size></box></geometry><material><ambient>0.80 0.20 0.20 1</ambient></material></visual>
+      </link>
+    </model>
+
+    <!-- Multi-route maze: straight walls with multiple holes -->
+    <!-- Row y = -3.0 (two wide openings) -->
+    <model name="r1_seg_left"><static>true</static><pose>-2.60 -3.00 0.5 0 0 0</pose><link name="link"><collision name="col"><geometry><box><size>1.7 0.12 1.0</size></box></geometry></collision><visual name="vis"><geometry><box><size>1.7 0.12 1.0</size></box></geometry><material><ambient>0.20 0.30 0.85 1</ambient></material></visual></link></model>
+    <model name="r1_seg_mid"><static>true</static><pose>0.00 -3.00 0.5 0 0 0</pose><link name="link"><collision name="col"><geometry><box><size>1.8 0.12 1.0</size></box></geometry></collision><visual name="vis"><geometry><box><size>1.8 0.12 1.0</size></box></geometry><material><ambient>0.20 0.30 0.85 1</ambient></material></visual></link></model>
+    <model name="r1_seg_right"><static>true</static><pose>2.60 -3.00 0.5 0 0 0</pose><link name="link"><collision name="col"><geometry><box><size>1.7 0.12 1.0</size></box></geometry></collision><visual name="vis"><geometry><box><size>1.7 0.12 1.0</size></box></geometry><material><ambient>0.20 0.30 0.85 1</ambient></material></visual></link></model>
+
+    <!-- Row y = -1.8 (offset openings for alternate routes) -->
+    <model name="r2_seg_left"><static>true</static><pose>-2.05 -1.80 0.5 0 0 0</pose><link name="link"><collision name="col"><geometry><box><size>2.8 0.12 1.0</size></box></geometry></collision><visual name="vis"><geometry><box><size>2.8 0.12 1.0</size></box></geometry><material><ambient>0.20 0.30 0.85 1</ambient></material></visual></link></model>
+    <model name="r2_seg_right"><static>true</static><pose>1.75 -1.80 0.5 0 0 0</pose><link name="link"><collision name="col"><geometry><box><size>3.4 0.12 1.0</size></box></geometry></collision><visual name="vis"><geometry><box><size>3.4 0.12 1.0</size></box></geometry><material><ambient>0.20 0.30 0.85 1</ambient></material></visual></link></model>
+
+    <!-- Row y = -0.6 -->
+    <model name="r3_seg_left"><static>true</static><pose>-2.35 -0.60 0.5 0 0 0</pose><link name="link"><collision name="col"><geometry><box><size>2.2 0.12 1.0</size></box></geometry></collision><visual name="vis"><geometry><box><size>2.2 0.12 1.0</size></box></geometry><material><ambient>0.20 0.30 0.85 1</ambient></material></visual></link></model>
+    <model name="r3_seg_mid"><static>true</static><pose>0.40 -0.60 0.5 0 0 0</pose><link name="link"><collision name="col"><geometry><box><size>1.9 0.12 1.0</size></box></geometry></collision><visual name="vis"><geometry><box><size>1.9 0.12 1.0</size></box></geometry><material><ambient>0.20 0.30 0.85 1</ambient></material></visual></link></model>
+    <model name="r3_seg_right"><static>true</static><pose>2.70 -0.60 0.5 0 0 0</pose><link name="link"><collision name="col"><geometry><box><size>1.5 0.12 1.0</size></box></geometry></collision><visual name="vis"><geometry><box><size>1.5 0.12 1.0</size></box></geometry><material><ambient>0.20 0.30 0.85 1</ambient></material></visual></link></model>
+
+    <!-- Row y = 0.6 -->
+    <model name="r4_seg_left"><static>true</static><pose>-2.75 0.60 0.5 0 0 0</pose><link name="link"><collision name="col"><geometry><box><size>1.4 0.12 1.0</size></box></geometry></collision><visual name="vis"><geometry><box><size>1.4 0.12 1.0</size></box></geometry><material><ambient>0.20 0.30 0.85 1</ambient></material></visual></link></model>
+    <model name="r4_seg_mid"><static>true</static><pose>-0.20 0.60 0.5 0 0 0</pose><link name="link"><collision name="col"><geometry><box><size>2.3 0.12 1.0</size></box></geometry></collision><visual name="vis"><geometry><box><size>2.3 0.12 1.0</size></box></geometry><material><ambient>0.20 0.30 0.85 1</ambient></material></visual></link></model>
+    <model name="r4_seg_right"><static>true</static><pose>2.45 0.60 0.5 0 0 0</pose><link name="link"><collision name="col"><geometry><box><size>2.0 0.12 1.0</size></box></geometry></collision><visual name="vis"><geometry><box><size>2.0 0.12 1.0</size></box></geometry><material><ambient>0.20 0.30 0.85 1</ambient></material></visual></link></model>
+
+    <!-- Row y = 1.8 -->
+    <model name="r5_seg_left"><static>true</static><pose>-2.00 1.80 0.5 0 0 0</pose><link name="link"><collision name="col"><geometry><box><size>2.9 0.12 1.0</size></box></geometry></collision><visual name="vis"><geometry><box><size>2.9 0.12 1.0</size></box></geometry><material><ambient>0.20 0.30 0.85 1</ambient></material></visual></link></model>
+    <model name="r5_seg_right"><static>true</static><pose>1.95 1.80 0.5 0 0 0</pose><link name="link"><collision name="col"><geometry><box><size>3.0 0.12 1.0</size></box></geometry></collision><visual name="vis"><geometry><box><size>3.0 0.12 1.0</size></box></geometry><material><ambient>0.20 0.30 0.85 1</ambient></material></visual></link></model>
+
+    <!-- Row y = 3.0 -->
+    <model name="r6_seg_left"><static>true</static><pose>-2.55 3.00 0.5 0 0 0</pose><link name="link"><collision name="col"><geometry><box><size>1.8 0.12 1.0</size></box></geometry></collision><visual name="vis"><geometry><box><size>1.8 0.12 1.0</size></box></geometry><material><ambient>0.20 0.30 0.85 1</ambient></material></visual></link></model>
+    <model name="r6_seg_mid"><static>true</static><pose>0.00 3.00 0.5 0 0 0</pose><link name="link"><collision name="col"><geometry><box><size>2.0 0.12 1.0</size></box></geometry></collision><visual name="vis"><geometry><box><size>2.0 0.12 1.0</size></box></geometry><material><ambient>0.20 0.30 0.85 1</ambient></material></visual></link></model>
+    <model name="r6_seg_right"><static>true</static><pose>2.60 3.00 0.5 0 0 0</pose><link name="link"><collision name="col"><geometry><box><size>1.7 0.12 1.0</size></box></geometry></collision><visual name="vis"><geometry><box><size>1.7 0.12 1.0</size></box></geometry><material><ambient>0.20 0.30 0.85 1</ambient></material></visual></link></model>
+
+    <!-- Vertical dividers with breaks to create loops / alternate shortcuts -->
+    <model name="v1_top"><static>true</static><pose>-1.60 2.70 0.5 0 0 0</pose><link name="link"><collision name="col"><geometry><box><size>0.12 2.3 1.0</size></box></geometry></collision><visual name="vis"><geometry><box><size>0.12 2.3 1.0</size></box></geometry><material><ambient>0.15 0.65 0.35 1</ambient></material></visual></link></model>
+    <model name="v1_bottom"><static>true</static><pose>-1.60 -1.90 0.5 0 0 0</pose><link name="link"><collision name="col"><geometry><box><size>0.12 3.0 1.0</size></box></geometry></collision><visual name="vis"><geometry><box><size>0.12 3.0 1.0</size></box></geometry><material><ambient>0.15 0.65 0.35 1</ambient></material></visual></link></model>
+
+    <model name="v2_top"><static>true</static><pose>1.55 2.00 0.5 0 0 0</pose><link name="link"><collision name="col"><geometry><box><size>0.12 3.6 1.0</size></box></geometry></collision><visual name="vis"><geometry><box><size>0.12 3.6 1.0</size></box></geometry><material><ambient>0.15 0.65 0.35 1</ambient></material></visual></link></model>
+    <model name="v2_bottom"><static>true</static><pose>1.55 -3.10 0.5 0 0 0</pose><link name="link"><collision name="col"><geometry><box><size>0.12 1.7 1.0</size></box></geometry></collision><visual name="vis"><geometry><box><size>0.12 1.7 1.0</size></box></geometry><material><ambient>0.15 0.65 0.35 1</ambient></material></visual></link></model>
+
+  </world>
+</sdf>
