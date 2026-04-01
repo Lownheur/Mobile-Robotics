@@ -6,7 +6,7 @@ import time
 import numpy as np
 import torch
 
-from planners import create_collision_env_grid, run_astar, world_to_grid
+from planners import create_collision_env_grid, run_astar, run_dijkstra, run_greedy, world_to_grid
 
 MODEL_PATH = "/home/ubuntu/project/qlearning_model.pt"
 ACTIONS = [(-1, 0), (1, 0), (0, -1), (0, 1)]
@@ -20,9 +20,9 @@ def shortest_path_len(grid, start, goal):
     return len(path), path
 
 
-def classical_navigation_episode(grid, start, goal):
+def classical_navigation_episode(grid, start, goal, planner_func):
     t0 = time.perf_counter()
-    path, _, _ = run_astar(grid, start, goal)
+    path, _, _ = planner_func(grid, start, goal)
 
     if not path:
         return {
@@ -191,15 +191,21 @@ def main():
         print("Aucun start atteignable trouve.")
         return
 
-    classical_rows = []
+    astar_rows = []
+    dijkstra_rows = []
+    greedy_rows = []
     rl_rows = []
 
     for s in starts:
-        classical_rows.append(classical_navigation_episode(grid, s, goal))
+        astar_rows.append(classical_navigation_episode(grid, s, goal, run_astar))
+        dijkstra_rows.append(classical_navigation_episode(grid, s, goal, run_dijkstra))
+        greedy_rows.append(classical_navigation_episode(grid, s, goal, run_greedy))
         rl_rows.append(rl_navigation_episode(grid, s, goal, q_table, state_to_idx))
 
     metrics = [
-        summarize("Classical", classical_rows),
+        summarize("A* (Reference)", astar_rows),
+        summarize("Dijkstra", dijkstra_rows),
+        summarize("Greedy Best-First", greedy_rows),
         summarize("RL (Q-Learning)", rl_rows),
     ]
 

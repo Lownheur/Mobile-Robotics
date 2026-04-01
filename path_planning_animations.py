@@ -1,8 +1,10 @@
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+from pathlib import Path
+import argparse
 from planners import create_gazebo_env_grid, world_to_grid, run_dijkstra, run_greedy, run_astar
 
-def animate_path_planning():
+def animate_path_planning(save_only=False):
     grid = create_gazebo_env_grid()
     
     start_world = (0.0, -4.0)
@@ -49,7 +51,8 @@ def animate_path_planning():
     path_line_a, = axs[2].plot([], [], 'r-', linewidth=2)
 
     max_frames = max(len(exp_d), len(exp_g), len(exp_a))
-    steps_per_frame = 20
+    # Slightly faster animation than previous version.
+    steps_per_frame = 6
 
     def init():
         return line_d, line_g, line_a, path_line_d, path_line_g, path_line_a
@@ -88,12 +91,35 @@ def animate_path_planning():
 
     # Ensure last explored node is always reached (important for long Dijkstra runs).
     num_frames = ((max_frames + steps_per_frame - 1) // steps_per_frame) + 1
-    ani = animation.FuncAnimation(fig, update, frames=num_frames, init_func=init, blit=True, interval=10, repeat=False)
+    ani = animation.FuncAnimation(fig, update, frames=num_frames, init_func=init, blit=True, interval=100, repeat=False)
+
+    project_dir = Path(__file__).resolve().parent
+    gif_path = project_dir / "path_planning_animation.gif"
+    mp4_path = project_dir / "path_planning_animation.mp4"
+
+    print(f"Saving GIF to: {gif_path}")
+    gif_writer = animation.PillowWriter(fps=8)
+    ani.save(str(gif_path), writer=gif_writer)
+    print("GIF saved.")
+
+    # Optional MP4 export if ffmpeg is available.
+    try:
+        ffmpeg_writer = animation.FFMpegWriter(fps=8, bitrate=1800)
+        ani.save(str(mp4_path), writer=ffmpeg_writer)
+        print(f"MP4 saved to: {mp4_path}")
+    except Exception:
+        print("FFmpeg not available, MP4 export skipped.")
     
     plt.tight_layout()
-    plt.show()
+    if save_only:
+        plt.close(fig)
+    else:
+        plt.show()
 
 if __name__ == '__main__':
-    animate_path_planning()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--save-only", action="store_true", help="Save animation files without opening window")
+    args = parser.parse_args()
+    animate_path_planning(save_only=args.save_only)
 
     
